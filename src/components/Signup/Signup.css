@@ -1,0 +1,114 @@
+.signup{
+    display:flex;
+    min-height: 100vh;
+    padding:0;
+    --w:190px;
+}
+.signup .img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin:0;
+}
+.signup form{
+    padding:80px;
+}
+.signup h3{
+    font-size:35px;
+}
+.signup p{
+    margin-bottom:30px;
+    margin-top:30px;
+}
+.signup .input{
+    display:flex;
+    margin-bottom:10px;
+    align-items: flex-end;
+}
+.signup .input .name{
+    text-transform: capitalize;
+    margin-right: 10px;
+    font-weight: 700;
+    display:flex;
+    align-items: flex-end;
+    min-width:100px;
+    margin-left:5px;
+}
+.signup .input .name.right{
+    margin:0;
+    margin-left:10px;
+}
+.signup .input input{
+    background-color: rgba(68, 68, 68, 0.141);
+    border:none;
+    outline: none;
+    border-bottom: solid 1px rgba(0, 0, 0, 0.201);
+    padding:5px 10px;
+    width:var(--w);
+}
+.icon{
+    font-size:25px;
+    margin-right: 10px;
+    color:rgba(0, 0, 0, 0.359);
+}
+.selects {
+    padding:5px 10px;
+    background-color: rgba(0, 0, 0, 0.103);
+    border-bottom: solid 1px rgba(0, 0, 0, 0.201);
+    width:var(--w);
+    position:relative;
+    cursor:pointer;
+}
+
+.selects .options{
+    position:absolute;
+    background-color: white;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.122);
+    top:100%;
+    left:0;
+    display:flex;
+    flex-direction: column;
+    width:100%;
+    height: 0;
+    overflow: hidden;
+}
+.selects:hover .options{
+    height: auto;
+}
+.selects .options span{
+    display:inline-block;
+    padding:2px;
+    cursor:pointer;
+}
+.selects .options span:hover{
+    background-color: rgba(0, 0, 0, 0.079);
+}
+.signup .input.agree{
+    margin-top: 40px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+}
+.signup .input.agree input{
+    justify-content: center;
+    width:20px;
+}
+@media (width<1000px){
+    .signup{
+       flex-direction: column;
+    }
+    .signup .img {
+       height: 15vh;
+    }
+}
+@media (width<900px){
+    .signup form{
+        padding:40px;
+    }
+}
+@media (width<700px){
+    .signup form{
+        padding:30px;
+    }
+}
+
