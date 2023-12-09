@@ -10,7 +10,7 @@
     object-fit: cover;
     margin:0;
 }
-.signup form{
+.signup .form{
     padding:80px;
 }
 .signup h3{
@@ -20,10 +20,11 @@
     margin-bottom:30px;
     margin-top:30px;
 }
-.signup .input{
+.signup .input , .sub-input{
     display:flex;
     margin-bottom:10px;
     align-items: flex-end;
+    flex-wrap: wrap;
 }
 .signup .input .name{
     text-transform: capitalize;
@@ -49,15 +50,15 @@
 .icon{
     font-size:25px;
     margin-right: 10px;
-    color:rgba(0, 0, 0, 0.359);
+    color:rgba(0, 0, 0, 0.412);
 }
 .selects {
     padding:5px 10px;
     background-color: rgba(0, 0, 0, 0.103);
     border-bottom: solid 1px rgba(0, 0, 0, 0.201);
-    width:var(--w);
     position:relative;
     cursor:pointer;
+    width:var(--w);
 }
 
 .selects .options{
@@ -71,6 +72,7 @@
     width:100%;
     height: 0;
     overflow: hidden;
+    z-index:2;
 }
 .selects:hover .options{
     height: auto;
@@ -93,6 +95,22 @@
     justify-content: center;
     width:20px;
 }
+.signup .error{
+    color:rgb(255, 50, 50);
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(244, 209, 209);
+    padding:5px;
+    display:none;
+}
+.signup .error .icon{
+    color:rgb(251, 101, 101);
+    font-size: 15px;
+}
+.signup .error.display{
+    display:flex;
+}
 @media (width<1000px){
     .signup{
        flex-direction: column;
@@ -102,13 +120,25 @@
     }
 }
 @media (width<900px){
-    .signup form{
+    .signup .form{
         padding:40px;
     }
 }
 @media (width<700px){
-    .signup form{
+    .signup .form{
         padding:30px;
     }
 }
+@media (width<=500px){
+    .signup{
+        --w:100%;
+    }
+    .sub-input{
+        width:100%;
+    }
+    .signup .input .name{
+       margin-bottom:5px;
+    }
+}
+
 

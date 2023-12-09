@@ -1,9 +1,6 @@
-import Signup from "./components/Signup/Signup";
-
+import AppRouter from "./AppRouter";
 function App() {
-  return (<div className="app">
-      <Signup/>
-  </div>)
+  return (<AppRouter/>)
 }
 
 export default App

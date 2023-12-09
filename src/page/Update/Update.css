@@ -1,0 +1,115 @@
+.update{
+    --w-section1:300px;
+    min-height: 100vh;
+    display:flex;
+    flex-direction: column;
+}
+.header{
+    width:100%;
+    height: 10vh;
+}
+.header img{
+    width:100%;
+    height: 100%;
+    object-fit: cover;
+}
+.body{
+    display:flex;
+    flex-grow: 1;
+}
+.body .section1{
+    padding:30px 20px;
+    display:flex;
+    flex-direction: column;
+    width:var(--w-section1);
+    box-shadow: 0 20px 40px rgba(11, 52, 233, 0.385);
+    border-radius: 10px;
+    align-items: center;
+}
+.body .section1 .icon{
+    font-size: 60px;
+    color:rgba(0, 38, 255, 0.862);
+    border: solid 1px rgba(0, 47, 255, 0.281);
+    border-radius: 50%;
+    padding:10px;
+    margin-bottom: 20px;
+}
+.body .section1 span{
+    font-size: 20px;
+    font-weight: 700;
+}
+.body .section2{
+    padding:30px 80px;
+}
+.body .section2 h3{
+    font-size: 40px;
+    margin-bottom: 30px;
+    color:rgba(0, 0, 0, 0.723);
+}
+
+.body .section2 .data{
+    margin-bottom: 10px;
+    display:flex;
+    flex-direction: column;
+    width:400px;
+}
+.body .section2 .data .name{
+    color:blue;
+    margin-bottom: 5px;
+}
+.body .section2 .data .name .icon{
+    color:rgba(0, 0, 255, 0.252);
+    font-size: 20px;
+}
+.body .section2 .data .value{
+    border:solid 1px rgba(0, 0, 0, 0.137);
+    outline: none;
+    padding:5px 10px;
+    width: 100%;
+}
+.body .section2 .data .sub-input{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.body .section2 .data .sub-input .selects{
+    width:100%;
+}
+.body .section2  button{
+    margin-top: 80px;
+}
+.body .section2  button .icon{
+    font-size: 20px;
+    color:white;
+}
+
+@media (width<900px){
+    .update{
+        --w-section1:100%;
+    }
+    .body{
+       flex-direction: column;
+    }
+    .body .section1{
+        padding:10px;
+        flex-direction: row;
+        align-items: center;
+        box-shadow: 0 0px 10px rgba(11, 52, 233, 0.299);
+    }
+    .body .section1 .icon{
+        font-size: 30px;
+        margin:0;
+        margin-right: 10px;
+        box-shadow: 2px 2px 5px rgba(11, 52, 233, 0.326);
+    }
+}
+@media (width<600px){
+    .body .section2{
+        padding:30px 30px;
+    }
+    .body .section2 .data{
+        width:95%;
+        padding:0;
+    }
+   
+}
