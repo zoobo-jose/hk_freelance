@@ -2,7 +2,7 @@ import "./Update.css";
 import * as Icon from 'react-bootstrap-icons';
 import { useContext, useEffect, useState } from 'react';
 import { Context } from "../../helper/context/context";
-import { Sectors, subsectorsOf, getSubSector, Sector, SubSector,getSector } from "../../helper/sector";
+import { Sectors, Sector, SubSector} from "../../helper/sector";
 
 export default function Update() {
     const { client } = useContext(Context);
@@ -11,9 +11,9 @@ export default function Update() {
         sector:0,
         agree:false
     });
-    const [currentSector, setCurrentSector] = useState(Sectors[0]);
-    const [currentSubSectors, setCurrentSubSectors] = useState(subsectorsOf(Sectors[0]));
-    const [currentSubSector,setCurrentSubSector]= useState(subsectorsOf(Sectors[0])[0]);
+    const [currentSector, setCurrentSector] = useState({});
+    const [currentSubSectors, setCurrentSubSectors] = useState([]);
+    const [currentSubSector,setCurrentSubSector]= useState({});
     const [errorMessage, setErrorMessage] = useState("");
 
     const handleChange = (event: ChangeEvent) => {
@@ -39,7 +39,9 @@ export default function Update() {
 
     useEffect(() => {
         const subSector=getSubSector(client.sector);
+        console.log(subSector);
         const sector=getSector(subSector.type);
+        console.log(sector);
         setSubSector(subSector);
         setCurrentSector(sector);
         setCurrentSubSectors(subsectorsOf(sector));
