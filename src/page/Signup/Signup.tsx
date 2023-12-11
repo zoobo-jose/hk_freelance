@@ -2,15 +2,15 @@ import "./Signup.css";
 import * as Icon from 'react-bootstrap-icons';
 import { useNavigate } from "react-router-dom";
 import {useState} from "react";
-import {Sectors, subsectorsOf,getSubSector,Sector,SubSector} from "../../helper/sector"
+import {Sectors, subsectorsOf,Sector,SubSector,getSetors} from "../../helper/sector"
 import { ChangeEvent } from "react";
-
+import { useContext } from 'react';
+import { Context } from "../../helper/context/context";
 
 export default function Signup() {
 
     const navigate = useNavigate();
-
-   
+   const {setClient}= useContext(Context);
     
     const [user, setUser] = useState( {
         name:"",
@@ -19,6 +19,7 @@ export default function Signup() {
     });
     const [currentSector,setCurrentSector]= useState(Sectors[0]);
     const [currentSubSectors,setCurrentSubSectors]= useState(subsectorsOf(Sectors[0]));
+    const [currentSubSector,setCurrentSubSector]= useState(subsectorsOf(Sectors[0])[0]);
     const [errorMessage,setErrorMessage]=useState("");
     const handleChange = (event:ChangeEvent) => {
         const name = event.target.name;
@@ -33,12 +34,15 @@ export default function Signup() {
         setCurrentSector(sector);
         const subSectors=subsectorsOf(sector);
         setCurrentSubSectors(subSectors);
+        setCurrentSubSector(subSectors[0]);
         setUser({...user,sector:subSectors[0]._id})
     }
 
     const setSubSector=(sub:SubSector)=>{
+        setCurrentSubSector(sub);
         setUser({...user,sector:sub._id})
     }
+   
     const verify=()=>{
         if(user.name.length<=0){
             setErrorMessage("Please enter your name")
@@ -53,6 +57,7 @@ export default function Signup() {
     const submit=()=>{
         if(verify()){
             // save data
+            setClient(user);
             navigate("/account");
         }
     }
@@ -99,7 +104,7 @@ export default function Signup() {
                 </span>
                 <div className="selects">
                     <span className="selected">
-                        {getSubSector(user.sector).name}
+                        {currentSubSector.name}
                     </span>
                     <div className="options">
                         {currentSubSectors.map((subSector,index)=>
@@ -120,6 +125,11 @@ export default function Signup() {
            
             <button onClick={()=>{submit()}}>
                 save
+            </button>
+            <button onClick={()=>{getSetors().then(data=>{
+                console.log("data ---")
+            })}}>
+                test
             </button>
             <p className={"error "+((errorMessage.length>0)?"display":"")}>
                 <Icon.ExclamationTriangleFill className="icon" />
