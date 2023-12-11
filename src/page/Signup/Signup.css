@@ -96,16 +96,16 @@
     width:20px;
 }
 .signup .error{
-    color:rgb(255, 50, 50);
+    color:rgb(255, 65, 65);
     display:flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(244, 209, 209);
+    background-color: rgb(254, 237, 237);
     padding:5px;
     display:none;
 }
 .signup .error .icon{
-    color:rgb(251, 101, 101);
+    color:rgb(252, 115, 115);
     font-size: 15px;
 }
 .signup .error.display{
