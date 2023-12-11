@@ -14,7 +14,7 @@ export default function Signup() {
 
     const [user, setUser] = useState({
         name: "",
-        sector: 0,
+        sector: "",
         agree: false
     });
     const [currentSector, setCurrentSector] = useState({});
@@ -41,6 +41,7 @@ export default function Signup() {
     }
 
     const setSector = (sector: Sector) => {
+       
         setCurrentSector(sector);
         const subSectors = subsectorsOf(sector);
         setCurrentSubSectors(subSectors);
@@ -60,6 +61,11 @@ export default function Signup() {
         } else
             if (!user.agree) {
                 setErrorMessage("Please agree to terms");
+                return false;
+            }
+            else
+            if (user.sector.length <= 0) {
+                setErrorMessage("Please give your sector");
                 return false;
             }
         return true;

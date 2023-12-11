@@ -2,10 +2,11 @@ import "./Update.css";
 import * as Icon from 'react-bootstrap-icons';
 import { useContext, useEffect, useState } from 'react';
 import { Context } from "../../helper/context/context";
-import { Sectors, Sector, SubSector} from "../../helper/sector";
+import {  Sector, SubSector} from "../../helper/sector";
+import { ChangeEvent } from "react";
 
 export default function Update() {
-    const { client } = useContext(Context);
+    const { client, sectors, subsectorsOf, getSubSector , getSector } = useContext(Context);
     const [user, setUser] = useState({
         name:"",
         sector:0,
@@ -14,7 +15,6 @@ export default function Update() {
     const [currentSector, setCurrentSector] = useState({});
     const [currentSubSectors, setCurrentSubSectors] = useState([]);
     const [currentSubSector,setCurrentSubSector]= useState({});
-    const [errorMessage, setErrorMessage] = useState("");
 
     const handleChange = (event: ChangeEvent) => {
         const name = event.target.name;
@@ -29,6 +29,7 @@ export default function Update() {
         setCurrentSector(sector);
         const subSectors = subsectorsOf(sector);
         setCurrentSubSectors(subSectors);
+        setCurrentSubSector(subSectors[0]);
         setUser({ ...user, sector: subSectors[0]._id })
     }
 
@@ -39,9 +40,7 @@ export default function Update() {
 
     useEffect(() => {
         const subSector=getSubSector(client.sector);
-        console.log(subSector);
         const sector=getSector(subSector.type);
-        console.log(sector);
         setSubSector(subSector);
         setCurrentSector(sector);
         setCurrentSubSectors(subsectorsOf(sector));
@@ -77,7 +76,7 @@ export default function Update() {
                                 {currentSector.name}
                             </span>
                             <div className="options">
-                                {Sectors.map((sector, index) =>
+                                {sectors.map((sector, index) =>
                                     <span key={"sector2" + index} onClick={() => { setSector(sector) }}>
                                         {sector.name}
                                     </span>
