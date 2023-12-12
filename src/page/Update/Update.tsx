@@ -2,11 +2,11 @@ import "./Update.css";
 import * as Icon from 'react-bootstrap-icons';
 import { useContext, useEffect, useState } from 'react';
 import { Context } from "../../helper/context/context";
-import {  Sector, SubSector} from "../../helper/sector";
+import {  Sector, SubSector} from "../../helper/api/sector";
 import { ChangeEvent } from "react";
 
 export default function Update() {
-    const { client, sectors, subsectorsOf, getSubSector , getSector } = useContext(Context);
+    const { client, sectors, subsectorsOf, getSubSector , getSector,verify,updateClient } = useContext(Context);
     const [user, setUser] = useState({
         name:"",
         sector:0,
@@ -39,13 +39,32 @@ export default function Update() {
     }
 
     useEffect(() => {
-        const subSector=getSubSector(client.sector);
-        const sector=getSector(subSector.type);
-        setSubSector(subSector);
-        setCurrentSector(sector);
-        setCurrentSubSectors(subsectorsOf(sector));
-        setUser(client);
-    }, [])
+        if(client.sector!==undefined){
+            const subSector=getSubSector(client.sector);
+            console.log(subSector,client.sector)
+            const sector=getSector(subSector.type);
+            setSubSector(subSector);
+            setCurrentSector(sector);
+            setCurrentSubSectors(subsectorsOf(sector));
+            setUser(client);
+        }
+    }, [client])
+
+    const verifyUser = () => {
+        const {response}=verify(user);
+       
+       return response;
+    }
+
+    const update=()=>{
+        if(verifyUser()){
+            updateClient(user).then((data)=>{
+                console.log("=================")
+                console.log(user)
+            });
+        }
+    }
+
     return (<div className="update">
         <div className="header">
             <img src="https://img.freepik.com/free-photo/vibrant-colors-swirling-futuristic-underwater-chaos-generated-by-ai_188544-9692.jpg?size=626&ext=jpg&ga=GA1.1.1222169770.1701993600&semt=sph" alt="" />
@@ -102,7 +121,7 @@ export default function Update() {
                         </div>
                     </div>
                 </div>
-                <button>
+                <button onClick={()=>{update()}}>
                     update
                 </button>
             </div>

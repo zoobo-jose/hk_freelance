@@ -8,7 +8,7 @@ exports.create=(req,res,next)=>{
         sector:req.body.sector,
         agree:req.body.agree
     })
-    User.save().
+    user.save().
     then((User)=>{
         res.json({
             message:"create",
@@ -21,4 +21,29 @@ exports.create=(req,res,next)=>{
         })
     })
    
+}
+// met a jour un projet
+exports.update=(req,res,next)=>{
+    let data={
+        name:req.body.name,
+        sector:req.body.sector,
+        agree:req.body.agree
+    }
+    User.updateOne({_id:req.body._id},data).
+    then(()=>{
+        res.json({message:"update"})
+    }).catch((error)=>{
+        console.log("=== > ",error);
+        res.json({message:"error"})
+    })
+}
+// renvoie tous les projets
+exports.getByName=(req,res,next)=>{
+    console.log(req.body.name)
+    User.findOne({name:req.body.name}).then((user)=>{
+        console.log(user)
+        res.json(user)
+    }).catch((error)=>{
+        console.log("=== > error ",error)
+    })
 }

@@ -2,7 +2,7 @@ import "./Signup.css";
 import * as Icon from 'react-bootstrap-icons';
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Sector, SubSector } from "../../helper/sector"
+import { Sector, SubSector } from "../../helper/api/sector"
 import { ChangeEvent } from "react";
 import { useContext } from 'react';
 import { Context } from "../../helper/context/context";
@@ -10,27 +10,35 @@ import { Context } from "../../helper/context/context";
 export default function Signup() {
 
     const navigate = useNavigate();
-    const { setClient, sectors, subsectorsOf } = useContext(Context);
+    const { setClient, client, sectors, subsectorsOf, saveClient, verify, getClientByName, getSubSector, getSector } = useContext(Context);
 
     const [user, setUser] = useState({
         name: "",
         sector: "",
         agree: false
     });
+    
     const [currentSector, setCurrentSector] = useState({});
     const [currentSubSectors, setCurrentSubSectors] = useState([]);
     const [currentSubSector, setCurrentSubSector] = useState({});
     const [errorMessage, setErrorMessage] = useState("");
+
     useEffect(() => {
-        if(sectors.length>0){
-            setCurrentSector(sectors[0]);
-            const subsectors = subsectorsOf(sectors[0]);
+        if (sectors.length > 0) {
+            updateForm()
+        }
+    }, [sectors]);
+    const updateForm = () => {
+        setCurrentSector(sectors[0]);
+        const subsectors = subsectorsOf(sectors[0]);
+        if (subsectors.length > 0) {
             const subsector = subsectors[0];
             setCurrentSubSectors(subsectors);
             setCurrentSubSector(subsector);
             setUser(values => ({ ...values, sector: subsector._id }))
         }
-    },[]);
+
+    }
     const handleChange = (event: ChangeEvent) => {
         const name = event.target.name;
         let value = event.target.value;
@@ -41,7 +49,6 @@ export default function Signup() {
     }
 
     const setSector = (sector: Sector) => {
-       
         setCurrentSector(sector);
         const subSectors = subsectorsOf(sector);
         setCurrentSubSectors(subSectors);
@@ -54,27 +61,22 @@ export default function Signup() {
         setUser({ ...user, sector: sub._id })
     }
 
-    const verify = () => {
-        if (user.name.length <= 0) {
-            setErrorMessage("Please enter your name")
-            return false;
-        } else
-            if (!user.agree) {
-                setErrorMessage("Please agree to terms");
-                return false;
-            }
-            else
-            if (user.sector.length <= 0) {
-                setErrorMessage("Please give your sector");
-                return false;
-            }
-        return true;
+    const verifyUser = () => {
+        const { response, message } = verify(user);
+        if (!response) {
+            setErrorMessage(message)
+        }
+        return response;
     }
     const submit = () => {
-        if (verify()) {
+        if (verifyUser()) {
             // save data
-            setClient(user);
-            navigate("/account");
+            saveClient(user).then((data) => {
+                setUser({ ...user, _id: data.user._id })
+                setClient({ ...user, _id: data.user._id });
+                navigate("/account");
+                console.log(user);
+            })
         }
     }
     return <div className="signup">
@@ -132,16 +134,32 @@ export default function Signup() {
                 </div>
             </div>
             <div className="input agree">
+
                 <input type="checkbox" name="agree" className="checkbox" checked={user.agree}
                     onChange={handleChange} />
+
                 <span className="name">
                     Agree to terms
                 </span>
             </div>
+            <div className="buttons">
+                <button onClick={() => { submit() }}>
+                    save
+                </button>
+                <button onClick={() => {
+                    getClientByName(user).then((data) => {
+                        const subSector = getSubSector(data.sector);
+                        const sector = getSector(subSector.type);
+                        setSubSector(subSector);
+                        setCurrentSector(sector);
+                        setCurrentSubSectors(subsectorsOf(sector));
+                        setUser(data);
+                    })
+                }}>
+                    refill form
+                </button>
+            </div>
 
-            <button onClick={() => { submit() }}>
-                save
-            </button>
             <p className={"error " + ((errorMessage.length > 0) ? "display" : "")}>
                 <Icon.ExclamationTriangleFill className="icon" />
                 {errorMessage}

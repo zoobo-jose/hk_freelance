@@ -8,13 +8,13 @@ const user_ctr= require('./controller/user.controller');
 
 router.post("/user/create",user_ctr.create);
 
-router.get("/projets",projet_ctr.getAll);
+router.post("/user/byName",user_ctr.getByName);
 
 router.get("/sectors",sector_ctr.getAll);
 
 router.get("/subsectors",subSector_ctr.getAll);
 
-router.put("/projet/update",projet_ctr.update);
+router.put("/user/update",user_ctr.update);
 
 router.delete("/projet/delete",projet_ctr.delete);
 

@@ -47,6 +47,9 @@
     padding:5px 10px;
     min-width:var(--w);
 }
+.signup .input  input.checkbox{
+    min-width:0;
+}
 .icon{
     font-size:25px;
     margin-right: 10px;
@@ -76,6 +79,8 @@
 }
 .selects:hover .options{
     height: auto;
+    max-height: 200px;
+    overflow: scroll;
 }
 .selects .options span{
     display:inline-block;
@@ -110,6 +115,11 @@
 }
 .signup .error.display{
     display:flex;
+}
+.buttons{
+    display:flex;
+    flex-wrap: wrap;
+    gap:10px;
 }
 @media (width<1000px){
     .signup{
