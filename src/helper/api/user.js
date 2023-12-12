@@ -1,12 +1,7 @@
 import { serverUrl } from "../config";
-export type User = {
-    _id: string,
-    name: string,
-    agree: string,
-    sector:string,
-}
 
-export function saveUser(user:User) {
+
+export function saveUser(user) {
     return fetch(serverUrl+"/user/create", {
         headers: {
             'Accept': 'application/json',
@@ -18,7 +13,7 @@ export function saveUser(user:User) {
     .then(response => response.json())
 }
 
-export function updateUser(user:User) {
+export function updateUser(user) {
     return fetch(serverUrl+"/user/update", {
         headers: {
             'Accept': 'application/json',
@@ -29,7 +24,7 @@ export function updateUser(user:User) {
       })
     .then(response => response.json())
 }
-export function getUserByName(user:User) {
+export function getUserByName(user) {
     console.log(user)
     return fetch(serverUrl+"/user/byName", {
         headers: {

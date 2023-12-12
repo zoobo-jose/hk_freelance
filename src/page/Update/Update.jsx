@@ -2,8 +2,7 @@ import "./Update.css";
 import * as Icon from 'react-bootstrap-icons';
 import { useContext, useEffect, useState } from 'react';
 import { Context } from "../../helper/context/context";
-import {  Sector, SubSector} from "../../helper/api/sector";
-import { ChangeEvent } from "react";
+
 
 export default function Update() {
     const { client, sectors, subsectorsOf, getSubSector , getSector,verify,updateClient } = useContext(Context);
@@ -16,7 +15,7 @@ export default function Update() {
     const [currentSubSectors, setCurrentSubSectors] = useState([]);
     const [currentSubSector,setCurrentSubSector]= useState({});
 
-    const handleChange = (event: ChangeEvent) => {
+    const handleChange = (event) => {
         const name = event.target.name;
         let value = event.target.value;
         if (name == "agree") {
@@ -25,7 +24,7 @@ export default function Update() {
         setUser(values => ({ ...values, [name]: value }))
     }
 
-    const setSector = (sector: Sector) => {
+    const setSector = (sector) => {
         setCurrentSector(sector);
         const subSectors = subsectorsOf(sector);
         setCurrentSubSectors(subSectors);
@@ -33,7 +32,7 @@ export default function Update() {
         setUser({ ...user, sector: subSectors[0]._id })
     }
 
-    const setSubSector = (sub: SubSector) => {
+    const setSubSector = (sub) => {
         setCurrentSubSector(sub);
         setUser({ ...user, sector: sub._id })
     }
@@ -58,7 +57,7 @@ export default function Update() {
 
     const update=()=>{
         if(verifyUser()){
-            updateClient(user).then((data)=>{
+            updateClient(user).then(()=>{
                 console.log("=================")
                 console.log(user)
             });

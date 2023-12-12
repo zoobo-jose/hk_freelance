@@ -1,6 +1,5 @@
 const express = require('express');
 const router= express.Router();
-const projet_ctr= require('./controller/projet.controller');
 const sector_ctr= require('./controller/sector.controller');
 const subSector_ctr= require('./controller/subSector.controller');
 const user_ctr= require('./controller/user.controller');
@@ -16,6 +15,5 @@ router.get("/subsectors",subSector_ctr.getAll);
 
 router.put("/user/update",user_ctr.update);
 
-router.delete("/projet/delete",projet_ctr.delete);
 
 module.exports= router;

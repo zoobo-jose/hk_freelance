@@ -2,22 +2,22 @@ import "./Signup.css";
 import * as Icon from 'react-bootstrap-icons';
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Sector, SubSector } from "../../helper/api/sector"
-import { ChangeEvent } from "react";
 import { useContext } from 'react';
 import { Context } from "../../helper/context/context";
+
 
 export default function Signup() {
 
     const navigate = useNavigate();
-    const { setClient, client, sectors, subsectorsOf, saveClient, verify, getClientByName, getSubSector, getSector } = useContext(Context);
+    const { setClient, sectors, subsectorsOf, saveClient, verify, getClientByName, getSubSector, getSector } = useContext(Context);
+    
 
     const [user, setUser] = useState({
         name: "",
         sector: "",
         agree: false
     });
-    
+
     const [currentSector, setCurrentSector] = useState({});
     const [currentSubSectors, setCurrentSubSectors] = useState([]);
     const [currentSubSector, setCurrentSubSector] = useState({});
@@ -39,7 +39,7 @@ export default function Signup() {
         }
 
     }
-    const handleChange = (event: ChangeEvent) => {
+    const handleChange = (event) => {
         const name = event.target.name;
         let value = event.target.value;
         if (name == "agree") {
@@ -48,7 +48,7 @@ export default function Signup() {
         setUser(values => ({ ...values, [name]: value }))
     }
 
-    const setSector = (sector: Sector) => {
+    const setSector = (sector) => {
         setCurrentSector(sector);
         const subSectors = subsectorsOf(sector);
         setCurrentSubSectors(subSectors);
@@ -56,7 +56,7 @@ export default function Signup() {
         setUser({ ...user, sector: subSectors[0]._id })
     }
 
-    const setSubSector = (sub: SubSector) => {
+    const setSubSector = (sub) => {
         setCurrentSubSector(sub);
         setUser({ ...user, sector: sub._id })
     }
