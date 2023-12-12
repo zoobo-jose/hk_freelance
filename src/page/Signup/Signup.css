@@ -1,6 +1,6 @@
 .signup{
     display:flex;
-    min-height: 100vh;
+    min-height: 100dvh;
     padding:0;
     --w:190px;
 }
