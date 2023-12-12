@@ -1,19 +1,24 @@
 import "./Update.css";
 import * as Icon from 'react-bootstrap-icons';
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { Context } from "../../helper/context/context";
+import image from "../../assets/bg2.avif";
+import Loader from "../../components/Loader/Loader";
 
 
 export default function Update() {
-    const { client, sectors, subsectorsOf, getSubSector , getSector,verify,updateClient } = useContext(Context);
+    const navigate = useNavigate();
+    const { client, sectors, subsectorsOf, getSubSector, getSector, verify, updateClient } = useContext(Context);
     const [user, setUser] = useState({
-        name:"",
-        sector:0,
-        agree:false
+        name: "",
+        sector: 0,
+        agree: false
     });
     const [currentSector, setCurrentSector] = useState({});
     const [currentSubSectors, setCurrentSubSectors] = useState([]);
-    const [currentSubSector,setCurrentSubSector]= useState({});
+    const [currentSubSector, setCurrentSubSector] = useState({});
+    const [isloading, setIsloading] = useState(false);
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -38,10 +43,9 @@ export default function Update() {
     }
 
     useEffect(() => {
-        if(client.sector!==undefined){
-            const subSector=getSubSector(client.sector);
-            console.log(subSector,client.sector)
-            const sector=getSector(subSector.type);
+        if (client.sector !== undefined) {
+            const subSector = getSubSector(client.sector);
+            const sector = getSector(subSector.type);
             setSubSector(subSector);
             setCurrentSector(sector);
             setCurrentSubSectors(subsectorsOf(sector));
@@ -50,23 +54,27 @@ export default function Update() {
     }, [client])
 
     const verifyUser = () => {
-        const {response}=verify(user);
-       
-       return response;
+        const { response } = verify(user);
+
+        return response;
     }
 
-    const update=()=>{
-        if(verifyUser()){
-            updateClient(user).then(()=>{
-                console.log("=================")
-                console.log(user)
+    const update = () => {
+        if (verifyUser()) {
+            setIsloading(true)
+            updateClient(user).then(() => {
+                setIsloading(false)
+            }).catch((error) => {
+                setIsloading(false)
             });
+        } else {
+
         }
     }
 
     return (<div className="update">
         <div className="header">
-            <img src="https://img.freepik.com/free-photo/vibrant-colors-swirling-futuristic-underwater-chaos-generated-by-ai_188544-9692.jpg?size=626&ext=jpg&ga=GA1.1.1222169770.1701993600&semt=sph" alt="" />
+            <img src={image} alt="" />
         </div>
         <div className="body">
             <div className="section1">
@@ -120,10 +128,18 @@ export default function Update() {
                         </div>
                     </div>
                 </div>
-                <button onClick={()=>{update()}}>
-                    update
-                </button>
+                <div className="buttons">
+                    <button onClick={() => { update() }}>
+                        Update
+                    </button>
+                    <button onClick={() => {navigate("/") }}>
+                        Go to form
+                    </button>
+                </div>
+
+
             </div>
         </div>
+        <Loader isloading={isloading} />
     </div>)
 }

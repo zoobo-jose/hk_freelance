@@ -1,0 +1,39 @@
+.loader{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100vw;
+    height: 100vh;
+    display:none;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(110, 224, 175, 0.115);
+}
+.loader.display{
+    display:flex;
+}
+.loader div{
+    width:100px;
+    height: 40px;
+    background-color: rgb(52, 120, 204);
+    border-radius: 30px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.215);
+    animation: rotation 2s infinite;
+}
+@keyframes rotation {
+    0%{
+        transform: rotate(0deg);
+        background-color: green;
+    }
+    50%{
+        transform: rotate(300deg);
+        background-color: yellow;
+    }
+    80%{
+        transform: rotate(100deg);
+        background-color: red;
+    }
+    100%{
+        transform: rotate(700deg);
+    }
+}

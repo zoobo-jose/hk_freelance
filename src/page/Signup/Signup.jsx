@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useContext } from 'react';
 import { Context } from "../../helper/context/context";
+import image from "../../assets/bg1.avif";
+import Loader from "../../components/Loader/Loader";
 
 
 export default function Signup() {
 
     const navigate = useNavigate();
-    const { setClient, sectors, subsectorsOf, saveClient, verify, getClientByName, getSubSector, getSector } = useContext(Context);
+    const { setClient, sectors,subSectors, subsectorsOf, saveClient, verify, getClientByName, getSubSector, getSector } = useContext(Context);
     
 
     const [user, setUser] = useState({
@@ -22,12 +24,13 @@ export default function Signup() {
     const [currentSubSectors, setCurrentSubSectors] = useState([]);
     const [currentSubSector, setCurrentSubSector] = useState({});
     const [errorMessage, setErrorMessage] = useState("");
+    const [isloading, setIsloading] = useState(false);
 
     useEffect(() => {
         if (sectors.length > 0) {
             updateForm()
         }
-    }, [sectors]);
+    }, [sectors,subSectors]);
     const updateForm = () => {
         setCurrentSector(sectors[0]);
         const subsectors = subsectorsOf(sectors[0]);
@@ -71,17 +74,41 @@ export default function Signup() {
     const submit = () => {
         if (verifyUser()) {
             // save data
+            setIsloading(true);
             saveClient(user).then((data) => {
+                setIsloading(false);
                 setUser({ ...user, _id: data.user._id })
                 setClient({ ...user, _id: data.user._id });
                 navigate("/account");
-                console.log(user);
             })
         }
     }
+    const refillForm=()=>{
+        
+        if(user.name.length>0){
+            setIsloading(true);
+            getClientByName(user).then((data) => {
+                setIsloading(false);
+                const subSector = getSubSector(data.sector);
+                const sector = getSector(subSector.type);
+                setSubSector(subSector);
+                setCurrentSector(sector);
+                setCurrentSubSectors(subsectorsOf(sector));
+                setUser(data);
+                setErrorMessage("")
+            }).catch((error)=>{
+                setIsloading(false);
+                setErrorMessage("Can't access server Or user '"+user.name+"' don't exist ")
+            })
+        }else{
+            setErrorMessage("Enter your name for refill form")
+        }
+       
+    }
+
     return <div className="signup">
         <div className="img">
-            <img src="https://img.freepik.com/premium-photo/abstract-curved-brush-stroke-background_124507-11165.jpg" alt="" />
+            <img src={image} alt="" />
         </div>
         <div className="form" >
             <h3>New User ?</h3>
@@ -146,16 +173,7 @@ export default function Signup() {
                 <button onClick={() => { submit() }}>
                     save
                 </button>
-                <button onClick={() => {
-                    getClientByName(user).then((data) => {
-                        const subSector = getSubSector(data.sector);
-                        const sector = getSector(subSector.type);
-                        setSubSector(subSector);
-                        setCurrentSector(sector);
-                        setCurrentSubSectors(subsectorsOf(sector));
-                        setUser(data);
-                    })
-                }}>
+                <button onClick={() => { refillForm()}}>
                     refill form
                 </button>
             </div>
@@ -165,5 +183,6 @@ export default function Signup() {
                 {errorMessage}
             </p>
         </div>
+        <Loader isloading={isloading}/>
     </div>
 }
